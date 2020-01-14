@@ -2,133 +2,132 @@
 
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<title>IIDX CSV Viewer</title>
-	<meta name="wip tracker" content="IIDX CSV Viewer">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="css/style.css">
-	<!--- Included bootstrap stuff but hardly using it --->
+    <meta charset="utf-8">
+    <title>IIDX CSV Viewer</title>
+    <meta name="wip tracker" content="IIDX CSV Viewer">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
+    <!--- Included bootstrap stuff but hardly using it --->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-	<!--- My CSS overrides some of the bootstrap stuff --->
-	<link rel="stylesheet" href="css/style.css">
-	
+    <!--- My CSS overrides some of the bootstrap stuff --->
+    <link rel="stylesheet" href="css/style.css">
+
 
 </head>
 
 <body>
-	<!--- All my JS is in this file --->
-	<script src="js/script.js"></script>
+    <!--- All my JS is in this file --->
+    <script src="js/script.js"></script>
 
-	<!--- Top Bar Header --->
+    <!--- Top Bar Header --->
     <div class="heading-grid-container">
         <div class="vh-center-grid-item">
             <h1> IIDX CSV / BPI</h1>
-	    </div>
-	   
-	   
-		<!--- File Management --->
-    	<div class="vh-center-grid-item">
-	        <button class="uploadBtn" onclick="uploadButton()">upload</button>
-	    </div>
-	    
-	    <div class="vh-center-grid-item">
-	        <div class="fileBtn-container">
+        </div>
+
+        <!--- File Management --->
+        <div class="vh-center-grid-item">
+            <button class="uploadBtn" onclick="uploadButton()">upload</button>
+        </div>
+
+        <div class="vh-center-grid-item">
+        <div class="fileBtn-container">
                 <span id="filename"></span>
-	            <label>Select score data CSV: </label> 
-	            <input type="file" class="fileBtn" id="csvFileInput" name="file" onchange="handleFiles(this.files)" accept=".csv"><br>
-	            <label>Select song data CSV:  </label>
-	            <input type="file" class="fileBtn" id="dataFileInput" name="fileData" onchange="handleDataFiles(this.files)" accept=".csv">
-	        </div>
-	    </div>
-	    
-	    <div class="vh-center-grid-item">
-    	    <div id="ttlData">Total Results: 0</div>
-    	</div>
-	    
-    	<div class="vh-center-grid-item">
-	        <div class="data-grid-container">
+                <label>Select score data CSV: </label> 
+                <input type="file" class="fileBtn" id="csvFileInput" name="file" onchange="handleFiles(this.files)" accept=".csv"><br>
+                <label>Select song data CSV:  </label>
+                <input type="file" class="fileBtn" id="dataFileInput" name="fileData" onchange="handleDataFiles(this.files)" accept=".csv">
+            </div>
+        </div>
+
+        <div class="vh-center-grid-item">
+            <div id="ttlData">Total Results: 0</div>
+        </div>
+
+        <div class="vh-center-grid-item">
+            <div class="data-grid-container">
                 <div id="clrData">Cleared: 0.0%</div>
                 <div id="hcData">HC'd: 0.0%</div>
                 <div id="exhcData">EXHC'd: 0.0%</div>
                 <div id="fcData">FC'd: 0.0%</div>
                 <div id="aaaData">AAA'd: 0.0%</div> 
-	        </div>
-	    </div>
-	    
+            </div>
+        </div>
+
 
     </div>
-   
+
     <!--- First layer of main body (contains headers and header buttons) --->
     <div class="main-grid-container1">
-        
-		<!--- Filter Header --->
-		<div class="grid-item">
+
+        <!--- Filter Header --->
+        <div class="grid-item">
             <div class="filter-heading-container">Filter Options</div>
         </div>
-        
-		<!--- Table Header Buttons --->
+
+        <!--- Table Header Buttons --->
         <div class="grid-item">
             <div class="table-header-container"> 
                 <div class="grid-item">
                     <button class="headerBtn" onclick="stySort()">Style</button>
                 </div>
-                
+
                 <div class="grid-item">
                 <button class="headerBtn"  onclick="lvlSort()">Level</button>
                 </div>
-                
+
                 <div class="grid-item">
                 <button class="headerBtn" onclick="titlSort()">Song</button>
                 </div>
-                
+
                 <div class="grid-item">
                 <button class="headerBtn" onclick="clrSort()">Clear</button>
                 </div>
-                
+
                 <div class="grid-item">
                 <button class="headerBtn" onclick="rnkSort()">Rank</button>
                 </div>
-                
+
                 <div class="grid-item">
                 <button class="headerBtn" onclick="exSort()">EX</button>
                 </div>
-                
+
                 <div class="grid-item">
                 <button class="headerBtn" onclick="prcntSort()">%</button>
                 </div>
-                
+
                 <div class="grid-item">
                 <button class="headerBtn" onclick="missSort()">Misses</button>
                 </div>
-                
+
                 <div class="grid-item">
                 <button class="headerBtn" onclick="plysSort()">Plays</button>
                 </div>
-                
+
                 <div class="grid-item">
                 <button class="headerBtn" onclick="bpiSort()">BPI</button>
                 </div>
             </div>
         </div>
-		
+
     </div>
-    
-	
-	<!--- Second layer of main body (contains table and filters) --->
+
+
+    <!--- Second layer of main body (contains table and filters) --->
     <div class="main-grid-container2">
-	
-		<!--- Filter section --->
+
+        <!--- Filter section --->
         <div class="grid-item">
-		
+
             <div class="filter-container">
                 <div class="bpi-container">
                     <input type="checkbox" id="noBpi" onchange="liveUpdate(this.checked)" checked> No BPI Songs<br>
                     <br>
                 </div>
-                
+
                 <div class="rank-container">
                     <input type="checkbox" id="rank_aaa" onchange="liveUpdate(this.checked)" checked> AAA<br>
                     <input type="checkbox" id="rank_aa"  onchange="liveUpdate(this.checked)" checked> AA<br>
@@ -142,7 +141,7 @@
                     <button class="stockBtn" onclick="resetRanks()">Clear Ranks</button><br><br>
                     <br>
                 </div>
-                
+
                 <div class="clear-container">
                     <input type="checkbox" id="clear_fc"  onchange="liveUpdate(this.checked)" checked> FC<br>
                     <input type="checkbox" id="clear_exhc"onchange="liveUpdate(this.checked)" checked> EXHC<br>
@@ -157,7 +156,7 @@
                     <button class="stockBtn" onclick="resetClears()">Clear Clears</button><br><br>
                     <br>
                 </div>
-                
+
                 <div class="level-container">
                     <input type="checkbox" id="level1" onchange="liveUpdate(this.checked)" checked> 1<br>
                     <input type="checkbox" id="level2" onchange="liveUpdate(this.checked)" checked> 2<br>
@@ -173,9 +172,9 @@
                     <input type="checkbox" id="level12" onchange="liveUpdate(this.checked)" checked> 12<br><br>
                     <button class="stockBtn" onclick="setLevels()">All Levels</button><br><br>
                     <button class="stockBtn" onclick="resetLevels()">Clear Levels</button><br><br>
-                    <br>  
+                    <br>
                 </div>
-                
+
                 <div class="style-container">
                     <input type="checkbox" id="style1" onchange="liveUpdate(this.checked)" checked> 1st&substream<br>
                     <input type="checkbox" id="style2" onchange="liveUpdate(this.checked)" checked> 2nd style<br>
@@ -212,31 +211,31 @@
                 </div>
             </div>
         </div>
-            
-			
-		<!--- Table section --->	
+
+
+        <!--- Table section --->
         <div class="grid-item"> 
             <div class="table-container"> 
                 <div class="songTable-container">
                     <table id="songTable">
                         <!--- Row is needed for storing size --->
                         <tr>
-							<th style="width:15%"></th>
-							<th style="width:5%"></th>
-							<th style="width:35%"></th>
-							<th style="width:15%"></th>
-							<th style="width:5%"></th>
-							<th style="width:5%"></th>
-							<th style="width:5%"></th>
-							<th style="width:5%"></th>
-							<th style="width:5%"></th>
-							<th style="width:5%"></th>
+                            <th style="width:15%"></th>
+                            <th style="width:5%"></th>
+                            <th style="width:35%"></th>
+                            <th style="width:15%"></th>
+                            <th style="width:5%"></th>
+                            <th style="width:5%"></th>
+                            <th style="width:5%"></th>
+                            <th style="width:5%"></th>
+                            <th style="width:5%"></th>
+                            <th style="width:5%"></th>
                         </tr>
                     </table>
                 </div>
-            </div>         
-        </div>      
-            	
+            </div>
+        </div>
+
     </div>
 
 </body>
@@ -244,9 +243,9 @@
 <!--- Footer used for data storage --->
 <footer>
     <div class="footer-grid-container">
-    
+
         <div id="pageData">Page: 0/0</div>
-        <div class="pageBtn-container" id="pageButtons"> </div>    
+        <div class="pageBtn-container" id="pageButtons"> </div>
 
     </div>
 </footer>
