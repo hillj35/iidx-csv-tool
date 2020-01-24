@@ -1,3 +1,6 @@
+import BootstrapVue from 'bootstrap-vue';
+import "bootstrap/dist/css/bootstrap.min.css"
+import "bootstrap-vue/dist/bootstrap-vue.css"
 require('./bootstrap');
 
 window.Vue = require('vue');
@@ -18,6 +21,8 @@ window.Vue = require('vue');
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+
+Vue.use(BootstrapVue);
 
 
 const app = new Vue({

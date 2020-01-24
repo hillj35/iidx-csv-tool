@@ -9,12 +9,6 @@ export default {
     ********************************************************************************
     */
 
-    handleFiles(files) {
-        if (window.FileReader) {
-            this.getAsText(files[0]);
-        }
-    },
-
     getAsText(fileToRead) {
         let reader = new FileReader();
         reader.readAsText(fileToRead);

@@ -14,6 +14,9 @@ export default {
         songDataListCpy: [],
         cmbListCpy: [],
 
+        // Array for drawing
+        currPageList: [],
+
         // variables for tracking data
         ttlSongs: 0,
         songsClr: 0,
@@ -21,6 +24,17 @@ export default {
         songsHC: 0,
         songsEXHC: 0,
         songsAAA: 0,
+
+        prcntAAA:"0",
+        prcntClr:"0",
+        prcntEXHC:"0",
+        prcntFC:"0",
+        prcntHC:"0",
+
+
+        currpg: 0,
+        pages: 0,
+        limit: 50,
     },    
    
     /*
@@ -181,6 +195,7 @@ export default {
             this.state.cmbList.push(new CmbData.CmbData(styl, titl, genre, artist, plyCnt, chart, lvl, ex, prcnt, miss, clr, rnk, notes, record, kavg, bpi));
         }
 
+        this.state.pages = Math.ceil(this.state.cmbList.length / this.state.limit);
     },
 
     /*
