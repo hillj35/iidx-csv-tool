@@ -2254,426 +2254,80 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       state: _store_scoredata__WEBPACK_IMPORTED_MODULE_1__["default"].state,
-      // Flags for sorting
-      isStyAsc: false,
-      isLvlAsc: false,
-      isClrAsc: false,
-      isRnkAsc: false,
-      isTitlAsc: false,
-      isPlysAsc: false,
-      isMissAsc: false,
-      isExAsc: false,
-      isPrcntAsc: false,
-      isBpiAsc: false
+      totalRows: 1,
+      currentPage: 1,
+      perPage: 50,
+      pageOptions: [25, 35, 50],
+      sortBy: '',
+      sortDesc: false,
+      sortDirection: 'asc',
+      filter: null,
+      filterOn: [],
+      fields: [{
+        key: 'title',
+        label: 'Title',
+        sortable: true
+      }, {
+        key: 'level',
+        label: 'Level',
+        sortable: true
+      }, {
+        key: 'style',
+        label: 'Style',
+        sortable: true
+      }, {
+        key: 'clear',
+        label: 'Clear',
+        sortable: true
+      }, {
+        key: 'rank',
+        label: 'Rank',
+        sortable: true
+      }, {
+        key: 'ex',
+        label: 'Ex Score',
+        sortable: true
+      }, {
+        key: 'misses',
+        label: 'Miss Count',
+        sortable: true
+      }, {
+        key: 'notes',
+        label: 'Notes',
+        sortable: true
+      }, {
+        key: 'chart',
+        label: 'Chart',
+        sortable: true
+      }, {
+        key: 'percent',
+        label: 'Percent',
+        sortable: true
+      }, {
+        key: 'bpi',
+        label: 'BPI',
+        sortable: true
+      }]
     };
   },
   computed: {
-    cmbList: function cmbList() {
+    items: function items() {
       return _store_scoredata__WEBPACK_IMPORTED_MODULE_1__["default"].state.cmbList;
-    },
-    currPg: function currPg() {
-      return _store_scoredata__WEBPACK_IMPORTED_MODULE_1__["default"].state.currpg;
     }
   },
-  watch: {
-    cmbList: function cmbList(val, oldVal) {
-      this.resetTable();
-    },
-    currPg: function currPg(val, oldVal) {
-      this.resetTable();
-    }
-  },
+  watch: {},
   mounted: function mounted() {},
   methods: {
-    /*
-    ********************************************************************************
-    *                      Functions that manage the Table                         *
-    ********************************************************************************
-    */
-    resetTable: function resetTable() {
-      // Copy list
-      _store_scoredata__WEBPACK_IMPORTED_MODULE_1__["default"].state.cmbListCpy = _store_scoredata__WEBPACK_IMPORTED_MODULE_1__["default"].state.cmbList;
-      this.drawTable();
-    },
-    // *************** This is essentially the main function!!! ********************
-    drawTable: function drawTable() {
-      // Get the table ID
-      var table = document.getElementById("songTable");
-      var cmbListCpy = _store_scoredata__WEBPACK_IMPORTED_MODULE_1__["default"].state.cmbListCpy; // Need to clear table before filling it out again
-
-      this.clearTable(); // Row tracking
-
-      var rowCount = 0; // Filtering
-
-      /*rnkFilter();
-      lvlFilter();
-      clrFilter();
-      styFilter();
-      noBpiFilter();*/
-      // Get results for footer
-
-      _store_scoredata__WEBPACK_IMPORTED_MODULE_1__["default"].getResults(); // Check if drawing a blank page
-
-      if (_store_scoredata__WEBPACK_IMPORTED_MODULE_1__["default"].state.currpg + 1 > _store_scoredata__WEBPACK_IMPORTED_MODULE_1__["default"].state.pages) _store_scoredata__WEBPACK_IMPORTED_MODULE_1__["default"].state.currpg = _store_scoredata__WEBPACK_IMPORTED_MODULE_1__["default"].state.pages - 1;
-      if (_store_scoredata__WEBPACK_IMPORTED_MODULE_1__["default"].state.currpg < 0) _store_scoredata__WEBPACK_IMPORTED_MODULE_1__["default"].state.currpg = 0; // Set page offset
-
-      var offset = _store_scoredata__WEBPACK_IMPORTED_MODULE_1__["default"].state.currpg * _store_scoredata__WEBPACK_IMPORTED_MODULE_1__["default"].state.limit; // Loop through list of Songs
-
-      for (var i = offset; i < cmbListCpy.length; i++) {
-        // Draw Limit
-        if (i >= offset + _store_scoredata__WEBPACK_IMPORTED_MODULE_1__["default"].state.limit) break; // Extract data from classes
-
-        var styl = cmbListCpy[i].style;
-        var lvl = cmbListCpy[i].level;
-        var titl = cmbListCpy[i].title;
-        var clr = cmbListCpy[i].clear;
-        var rnk = cmbListCpy[i].rank;
-        var ex = cmbListCpy[i].ex;
-        var miss = cmbListCpy[i].misses;
-        var plyCnt = cmbListCpy[i].plays;
-        var notes = cmbListCpy[i].notes;
-        var chart = cmbListCpy[i].chart;
-        var prcnt = cmbListCpy[i].percent;
-        var bpi = cmbListCpy[i].bpi; // Variables for CSS
-
-        var lvl_pic = "";
-        var clr_pic = "";
-        var rnk_pic = "";
-        var row_fg = "#444444";
-        var clr_fg;
-        var rnk_fg;
-        var sty_fg;
-        var chrt_fg;
-        var row_bg = "white";
-        var clr_bg;
-        var rnk_bg;
-        var sty_bg;
-        var chrt_bg; // Create row and cols
-
-        var row = table.insertRow(rowCount);
-        var col1 = row.insertCell(0);
-        var col2 = row.insertCell(1);
-        var col3 = row.insertCell(2);
-        var col4 = row.insertCell(3);
-        var col5 = row.insertCell(4);
-        var col6 = row.insertCell(5);
-        var col7 = row.insertCell(6);
-        var col8 = row.insertCell(7);
-        var col9 = row.insertCell(8);
-        var col10 = row.insertCell(9); // Row tracking
-
-        rowCount++; // Find level colors
-
-        if (chart == "A") {
-          chrt_bg = "#ffb3b3";
-          lvl_pic = "SPA " + lvl;
-        } else if (chart == "L") {
-          chrt_bg = "#f2ccff";
-          lvl_pic = "SPL " + lvl;
-        } else {
-          chrt_bg = "#fff5cc";
-          lvl_pic = "SPH " + lvl;
-        } // Find clear colors
-
-
-        switch (clr) {
-          case "FULLCOMBO CLEAR":
-            clr_bg = "#f2e6ff";
-            break;
-
-          case "EX HARD CLEAR":
-            clr_bg = "#ffffcc";
-            break;
-
-          case "HARD CLEAR":
-            clr_bg = "#ffcccc";
-            break;
-
-          case "CLEAR":
-            clr_bg = "#e6ffff";
-            break;
-
-          case "EASY CLEAR":
-            clr_bg = "#ccffcc";
-            break;
-
-          case "ASSIST CLEAR":
-            clr_bg = "#ffe6ff";
-            break;
-
-          case "FAILED":
-            clr_bg = "#ffccb3";
-            break;
-
-          case "NO PLAY":
-            clr_bg = "#e6e6e6";
-            break;
-        } //Find rank colors
-
-
-        switch (rnk) {
-          case "AAA":
-            rnk_bg = "#ffeecc";
-            break;
-
-          case "AA":
-            rnk_bg = "#f2f2f2";
-            break;
-
-          case "A":
-            rnk_bg = "#e6ffe6";
-            break;
-
-          case "B":
-            rnk_bg = "#e6f2ff";
-            break;
-
-          case "C":
-            rnk_bg = "#e6f2ff";
-            break;
-
-          case "D":
-            rnk_bg = "#e6f2ff";
-            break;
-
-          case "E":
-            rnk_bg = "#e6f2ff";
-            break;
-
-          case "F":
-            Rnk_bg = "#e6f2ff";
-            break;
-        }
-        /*
-        // Get style colors for CSS
-        var sty_colors = [];
-        sty_colors = getStyleColors(styl);
-        col1.style.color = sty_colors[0];
-        col1.style.background = sty_colors[1];
-        */
-        // Get BPI colors for CSS
-
-
-        var bpi_colors = [];
-        bpi_colors = this.getBpiColors(bpi);
-        col10.style.color = bpi_colors[0];
-        col10.style.background = bpi_colors[1]; // Apply any additional CSS
-
-        row.style.background = row_bg;
-        row.style.color = row_fg;
-        if (chart == "L") col3.style.color = "#ff0080";
-        col2.style.background = chrt_bg;
-        col4.style.background = clr_bg;
-        col5.style.background = rnk_bg; // Set column data
-
-        col1.innerHTML = styl;
-        col2.innerHTML = lvl_pic;
-        col3.innerHTML = titl;
-        col4.innerHTML = clr;
-        col5.innerHTML = rnk;
-        col6.innerHTML = ex;
-        col7.innerHTML = prcnt + "%";
-        col8.innerHTML = miss;
-        col9.innerHTML = plyCnt; // BPI column
-
-        if (bpi == -99.99) bpi = " ";
-        col10.innerHTML = bpi;
-      } // Update footer
-
-
-      _store_scoredata__WEBPACK_IMPORTED_MODULE_1__["default"].storeResults();
-    },
-    clearTable: function clearTable() {
-      // Get the table ID
-      var table = document.getElementById("songTable"); //Clear table
-
-      var tableHeaderRowCount = 0;
-      var rowCount = table.rows.length - 1;
-
-      for (var i = tableHeaderRowCount; i < rowCount; i++) {
-        table.deleteRow(tableHeaderRowCount);
-      }
+    onFiltered: function onFiltered(filteredItems) {
+      // Trigger pagination to update the number of buttons/pages due to filtering
+      this.totalRows = filteredItems.length;
+      this.currentPage = 1;
     },
     getBpiColors: function getBpiColors(bpi) {
       var colors = []; // fg = 0, bg = 1
@@ -36481,25 +36135,6 @@ exports.push([module.i, "\n.scroll {\n    max-height: 750px;\n    overflow-y: au
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TableComponent.vue?vue&type=style&index=0&lang=css&":
-/*!********************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TableComponent.vue?vue&type=style&index=0&lang=css& ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n.scroll {\n    max-height: 750px;\n    overflow-y: auto;\n}\n\n/*\n********************************************************************************\n*                               Global Changes                                 *\n********************************************************************************\n*/\ntable {\n    text-align: center;\n    width: 100%;\n}\ntr {\n    height: 25px;\n}\ntd {\n    border-bottom: 1px solid #ddd;\n}\nbutton:focus {\n    border: none;\n    outline: none;\n}\n.stockBtn {\n    height: 30px;\n    width: 125px;\n    text-transform: uppercase;\n    cursor: pointer;\n    font-size: 12px;\n    font-weight: Bold;\n    border-radius: 3px;\n    color: #444444;\n    border-color: #dddddd;\n    background: -webkit-gradient(linear, left top, left bottom, from(#eeeeee), to(#dddddd));\n    background: linear-gradient(#eeeeee, #dddddd);\n    box-shadow: inset 0 1px #eeeeee, 0 1px 2px rgba(0,0,0,.2);\n}\n\n/*\n********************************************************************************\n*                           Filter Section CSS                                 *\n********************************************************************************\n*/\n.filter-heading-container{\n    border-bottom: 1px solid #dddddd;\n    text-align: center;\n    font-weight: bold;\n    height: 25px;\n    width: 100%;\n}\n.filter-container {\n    padding-left: 5px;\n    overflow: auto;\n    background: #fbfcfc;\n}\n\n\n/*\n********************************************************************************\n*                                  Table CSS                                   *\n********************************************************************************\n*/\n.table-header-container{\n    height: 100%;\n    border-bottom: 1px solid #dddddd;\n    padding-left: 5px;\n    padding-right: 15px;\n    display: grid;\n    grid-template-columns: 15% 5% 35% 15% 5% 5% 5% 5% 5% 5%;\n}\n.table-container {\n    font-size: 14px;\n    display: grid;\n    width: 100%;\n}\n.songTable-container {\n    overflow: auto;\n}\n.headerBtn {\n    cursor: pointer;\n    font-weight: Bold;\n    color: #444444;\n    background: transparent;\n    border-color: transparent;\n    width: 100%;\n}\n\n\n/*\n********************************************************************************\n*                           General Grid CSS                                   *\n********************************************************************************\n*/\n.grid-item {\n    overflow: auto;\n}\n.v-center-grid-item {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-align: center;\n            align-items: center;\n    overflow: auto;\n}\n.vh-center-grid-item {  \n    display: -webkit-box;  \n    display: flex;\n    -webkit-box-pack: center;\n            justify-content: center;\n    -webkit-box-align: center;\n            align-items: center;\n    overflow: auto;\n}\n\n\n/*\n********************************************************************************\n*                                Footer CSS                                    *\n********************************************************************************\n*/\nfooter {\n    position: fixed;\n    left: 0;\n    bottom: 0;\n    width: 100%;\n    height: 30px;\n    border-top: 1px solid #cccccc;\n    background-color: #eeeeee;\n    padding-left: 40px;\n}\n.footer-grid-container {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: center;\n            justify-content: center;\n    -webkit-box-align: center;\n            align-items: center;\n    overflow: auto; \n    grid-template-columns: 100px auto;\n}\n\n/*\n********************************************************************************\n*                           Page Section CSS                                   *\n********************************************************************************\n*/\n.pageBtn-container {\n    padding-left: 40px;\n}\n.pageBtn {\n    cursor: pointer;\n    font-size: 12px;\n    font-weight: Bold;\n    border-radius: 3px;\n\n    color: #666666;\n    border-color: #eeeeee;\n    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#eeeeee));\n    background: linear-gradient(#ffffff, #eeeeee);\n    box-shadow: inset 0 1px #eeeeee, 0 1px 2px rgba(0,0,0,.2); \n    height: 25px;\n    width: 40px;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-
 /***/ "./node_modules/css-loader/lib/css-base.js":
 /*!*************************************************!*\
   !*** ./node_modules/css-loader/lib/css-base.js ***!
@@ -57414,36 +57049,6 @@ if(false) {}
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TableComponent.vue?vue&type=style&index=0&lang=css&":
-/*!************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TableComponent.vue?vue&type=style&index=0&lang=css& ***!
-  \************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./TableComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TableComponent.vue?vue&type=style&index=0&lang=css&");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {}
-
-/***/ }),
-
 /***/ "./node_modules/style-loader/lib/addStyles.js":
 /*!****************************************************!*\
   !*** ./node_modules/style-loader/lib/addStyles.js ***!
@@ -58582,126 +58187,168 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "b-card",
-    { staticClass: "scroll" },
+    "b-container",
+    { attrs: { fluid: "" } },
     [
       _c(
         "b-row",
         [
-          _c("b-col", { attrs: { cols: "2" } }, [
-            _c("div", { staticClass: "filter-heading-container" }, [
-              _vm._v("Filter Options")
-            ])
-          ]),
+          _c(
+            "b-col",
+            { staticClass: "my-1", attrs: { lg: "6" } },
+            [
+              _c(
+                "b-form-group",
+                {
+                  staticClass: "mb-0",
+                  attrs: {
+                    label: "Filter",
+                    "label-cols-sm": "3",
+                    "label-align-sm": "right",
+                    "label-size": "sm",
+                    "label-for": "filterInput"
+                  }
+                },
+                [
+                  _c(
+                    "b-input-group",
+                    { attrs: { size: "sm" } },
+                    [
+                      _c("b-form-input", {
+                        attrs: {
+                          type: "search",
+                          id: "filterInput",
+                          placeholder: "Type to Search"
+                        },
+                        model: {
+                          value: _vm.filter,
+                          callback: function($$v) {
+                            _vm.filter = $$v
+                          },
+                          expression: "filter"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "b-input-group-append",
+                        [
+                          _c(
+                            "b-button",
+                            {
+                              attrs: { disabled: !_vm.filter },
+                              on: {
+                                click: function($event) {
+                                  _vm.filter = ""
+                                }
+                              }
+                            },
+                            [_vm._v("Clear")]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
           _vm._v(" "),
-          _c("b-col", [
-            _c(
-              "button",
-              { staticClass: "headerBtn", on: { click: _vm.stySort } },
-              [_vm._v("Style")]
-            )
-          ]),
-          _vm._v(" "),
-          _c("b-col", [
-            _c(
-              "button",
-              { staticClass: "headerBtn", on: { click: _vm.lvlSort } },
-              [_vm._v("Level")]
-            )
-          ]),
-          _vm._v(" "),
-          _c("b-col", [
-            _c(
-              "button",
-              { staticClass: "headerBtn", on: { click: _vm.titlSort } },
-              [_vm._v("Song")]
-            )
-          ]),
-          _vm._v(" "),
-          _c("b-col", [
-            _c(
-              "button",
-              { staticClass: "headerBtn", on: { click: _vm.clrSort } },
-              [_vm._v("Clear")]
-            )
-          ]),
-          _vm._v(" "),
-          _c("b-col", [
-            _c(
-              "button",
-              { staticClass: "headerBtn", on: { click: _vm.rnkSort } },
-              [_vm._v("Rank")]
-            )
-          ]),
-          _vm._v(" "),
-          _c("b-col", [
-            _c(
-              "button",
-              { staticClass: "headerBtn", on: { click: _vm.exSort } },
-              [_vm._v("EX")]
-            )
-          ]),
-          _vm._v(" "),
-          _c("b-col", [
-            _c(
-              "button",
-              { staticClass: "headerBtn", on: { click: _vm.prcntSort } },
-              [_vm._v("%")]
-            )
-          ]),
-          _vm._v(" "),
-          _c("b-col", [
-            _c(
-              "button",
-              { staticClass: "headerBtn", on: { click: _vm.missSort } },
-              [_vm._v("Misses")]
-            )
-          ]),
-          _vm._v(" "),
-          _c("b-col", [
-            _c(
-              "button",
-              { staticClass: "headerBtn", on: { click: _vm.plysSort } },
-              [_vm._v("Plays")]
-            )
-          ]),
-          _vm._v(" "),
-          _c("b-col", [
-            _c(
-              "button",
-              { staticClass: "headerBtn", on: { click: _vm.bpiSort } },
-              [_vm._v("BPI")]
-            )
-          ])
+          _c(
+            "b-col",
+            { staticClass: "my-1", attrs: { sm: "7", md: "6" } },
+            [
+              _c("b-pagination", {
+                staticClass: "my-0",
+                attrs: {
+                  "total-rows": _vm.totalRows,
+                  "per-page": _vm.perPage,
+                  align: "fill",
+                  size: "sm"
+                },
+                model: {
+                  value: _vm.currentPage,
+                  callback: function($$v) {
+                    _vm.currentPage = $$v
+                  },
+                  expression: "currentPage"
+                }
+              })
+            ],
+            1
+          )
         ],
         1
       ),
       _vm._v(" "),
-      _c("b-container", [
-        _c("table", { attrs: { id: "songTable" } }, [
-          _c("tr", [
-            _c("th", { staticStyle: { width: "15%" } }),
-            _vm._v(" "),
-            _c("th", { staticStyle: { width: "5%" } }),
-            _vm._v(" "),
-            _c("th", { staticStyle: { width: "35%" } }),
-            _vm._v(" "),
-            _c("th", { staticStyle: { width: "15%" } }),
-            _vm._v(" "),
-            _c("th", { staticStyle: { width: "5%" } }),
-            _vm._v(" "),
-            _c("th", { staticStyle: { width: "5%" } }),
-            _vm._v(" "),
-            _c("th", { staticStyle: { width: "5%" } }),
-            _vm._v(" "),
-            _c("th", { staticStyle: { width: "5%" } }),
-            _vm._v(" "),
-            _c("th", { staticStyle: { width: "5%" } }),
-            _vm._v(" "),
-            _c("th", { staticStyle: { width: "5%" } })
-          ])
+      _c("b-table", {
+        attrs: {
+          "show-empty": "",
+          small: "",
+          stacked: "md",
+          items: _vm.items,
+          fields: _vm.fields,
+          "current-page": _vm.currentPage,
+          "per-page": _vm.perPage,
+          filter: _vm.filter,
+          filterIncludedFields: _vm.filterOn,
+          "sort-by": _vm.sortBy,
+          "sort-desc": _vm.sortDesc,
+          "sort-direction": _vm.sortDirection
+        },
+        on: {
+          "update:sortBy": function($event) {
+            _vm.sortBy = $event
+          },
+          "update:sort-by": function($event) {
+            _vm.sortBy = $event
+          },
+          "update:sortDesc": function($event) {
+            _vm.sortDesc = $event
+          },
+          "update:sort-desc": function($event) {
+            _vm.sortDesc = $event
+          },
+          filtered: _vm.onFiltered
+        },
+        scopedSlots: _vm._u([
+          {
+            key: "cell(name)",
+            fn: function(row) {
+              return [
+                _vm._v(
+                  "\r\n        " +
+                    _vm._s(row.value.first) +
+                    " " +
+                    _vm._s(row.value.last) +
+                    "\r\n      "
+                )
+              ]
+            }
+          },
+          {
+            key: "row-details",
+            fn: function(row) {
+              return [
+                _c("b-card", [
+                  _c(
+                    "ul",
+                    _vm._l(row.item, function(value, key) {
+                      return _c("li", { key: key }, [
+                        _vm._v(_vm._s(key) + ": " + _vm._s(value))
+                      ])
+                    }),
+                    0
+                  )
+                ])
+              ]
+            }
+          }
         ])
-      ])
+      })
     ],
     1
   )
@@ -71428,9 +71075,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TableComponent_vue_vue_type_template_id_8554570c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TableComponent.vue?vue&type=template&id=8554570c& */ "./resources/js/components/TableComponent.vue?vue&type=template&id=8554570c&");
 /* harmony import */ var _TableComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TableComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/TableComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _TableComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TableComponent.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/TableComponent.vue?vue&type=style&index=0&lang=css&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -71438,7 +71083,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
   _TableComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _TableComponent_vue_vue_type_template_id_8554570c___WEBPACK_IMPORTED_MODULE_0__["render"],
   _TableComponent_vue_vue_type_template_id_8554570c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -71467,22 +71112,6 @@ component.options.__file = "resources/js/components/TableComponent.vue"
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TableComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./TableComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TableComponent.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TableComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/components/TableComponent.vue?vue&type=style&index=0&lang=css&":
-/*!*************************************************************************************!*\
-  !*** ./resources/js/components/TableComponent.vue?vue&type=style&index=0&lang=css& ***!
-  \*************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_TableComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./TableComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TableComponent.vue?vue&type=style&index=0&lang=css&");
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_TableComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_TableComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_TableComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_TableComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
- /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_TableComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
