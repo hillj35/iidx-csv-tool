@@ -1,6 +1,5 @@
 import CmbData from './../class/combineddata';
-import SongData from './../class/songdata';
-import Song from './../class/song';
+import bpiVariants from './../data/bpivariants';
 
 export default {
     state: {
@@ -192,7 +191,25 @@ export default {
             bpi = bpi.toFixed(2);
 
 
-            this.state.cmbList.push(new CmbData.CmbData(styl, titl, genre, artist, plyCnt, chart, lvl, ex, prcnt, miss, clr, rnk, notes, record, kavg, bpi));
+            this.state.cmbList.push({
+                'title': titl,
+                'level': lvl,
+                'style': styl,
+                'clear': clr,
+                'rank': rnk,
+                'ex': ex,
+                'misses': miss,
+                'notes': notes,
+                'chart': chart,
+                'percent': prcnt,
+                'bpi': bpi,
+                'genre': genre,
+                'artist': artist,
+                'playCount': plyCnt,
+                'record': record,
+                'kavg': kavg,
+                '_rowVariant': bpiVariants.getVariant(bpi)
+            });
         }
 
         this.state.pages = Math.ceil(this.state.cmbList.length / this.state.limit);

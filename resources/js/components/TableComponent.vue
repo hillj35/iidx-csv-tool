@@ -1,5 +1,55 @@
 <style>
-
+    .table-white {
+        background-color: #ffffff
+    }
+    .table-dark_grey {
+        background-color: #999999
+    }
+    .table-light_grey {
+        background-color: #b7b7b7
+    }
+    .table-lighter_grey {
+        background-color: #d9d9d9
+    }
+    .table-pink {
+        background-color: #ea9999
+    }
+    .table-peach {
+        background-color: #f9b89c
+    }
+    .table-light_orange {
+        background-color: #f9cb9c
+    }
+    .table-orange {
+        background-color: #ffdd82
+    }
+    .table-yellow {
+        background-color: #fffd82
+    }
+    .table-pale_yellow {
+        background-color: #e1db78
+    }
+    .table-lime {
+        background-color: #c5e178
+    }
+    .table-spring_green {
+        background-color: #6bff85
+    }
+    .table-teal {
+        background-color: #4fe1bf
+    }
+    .table-lavender {
+        background-color: #adcaff
+    }
+    .table-purple {
+        background-color: #c764fa
+    }
+    .table-light_purple {
+        background-color: #d786e1
+    }
+    .table-blood_purple {
+        background-color: #e11cbf
+    }
 </style>
 
 <template>
@@ -45,6 +95,7 @@
     <b-table
       show-empty
       small
+      
       stacked="md"
       :items="items"
       :fields="fields"

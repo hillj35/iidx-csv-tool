@@ -1,7 +1,7 @@
 export default {
     CmbData: class {
         constructor(style, title, genre, artist, plays, chart, level, ex,
-                    percent, misses, clear, rank, notes, record, kavg, bpi) {
+                    percent, misses, clear, rank, notes, record, kavg, bpi, variant) {
     
             this.style = style;
             this.title = title;
@@ -21,7 +21,8 @@ export default {
             this.record = record;
             this.kavg = kavg;
             this.bpi = bpi;
-    
+
+            this._rowVariant = variant;    
         }
     }
 };
