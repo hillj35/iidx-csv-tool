@@ -15,10 +15,5 @@
             <table-component></table-component>
         </div>
     </div>
-    <div class="row">
-        <div class="col-lg-12">
-            <footer-component></footer-component>        
-        </div>
-    </div>
 </div>
 @endsection
