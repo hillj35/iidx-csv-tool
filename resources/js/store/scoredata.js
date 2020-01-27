@@ -1,5 +1,5 @@
-import CmbData from './../class/combineddata';
 import bpiVariants from './../data/bpivariants';
+import checkboxLists from './../data/checkboxlists';
 
 export default {
     state: {
@@ -253,8 +253,16 @@ export default {
         return bpi;
     },
 
-    //todo: refactor sorting to not use a million functions
-    sortData() {
+    filterData() {
+        var filters = checkboxLists.filters;
+        var rankFilters = filters["rank"].map(x => x.label);
+        var clearFilters = filters["clear"].map(x => x.label);
+        var levelFilters = filters["level"].map(x => x.label);
+        var styleFilters = filters["style"].map(x => x.label);
 
-    },
+        this.state.cmbListCpy = this.state.cmbList.filter(function (e) {
+            return rankFilters.includes(e.rank) && clearFilters.includes(e.clear) 
+                && levelFilters.includes(e.level) && styleFilters.includes(e.style)
+        })
+    }
 }

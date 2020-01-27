@@ -63,6 +63,7 @@
         methods: {
             uploadButton: function() {
                 scoreData.combineClasses();
+                scoreData.filterData();
             }
         }
     }

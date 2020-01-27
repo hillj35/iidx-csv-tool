@@ -8,10 +8,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-2">
-            <sidebar-component></sidebar-component>
-        </div>
-        <div class="col-lg-10">
+        <div class="col-lg-12">
             <table-component></table-component>
         </div>
     </div>

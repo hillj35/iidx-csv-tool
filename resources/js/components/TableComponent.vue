@@ -55,6 +55,11 @@
 <template>
 <b-container fluid>
     <!-- User Interface controls -->
+    <filter-col-component :options="rankOptions" placeholder="Rank Filter" filter="rank"></filter-col-component>
+    <filter-col-component :options="clearOptions" placeholder="Clear Filter" filter="clear"></filter-col-component>
+    <filter-col-component :options="levelOptions" placeholder="Level Filter" filter="level"></filter-col-component>
+    <filter-col-component :options="styleOptions" placeholder="Style Filter" filter="style"></filter-col-component>
+
     <b-row>
         <b-col lg="6" class="my-1">
             <b-form-group
@@ -125,15 +130,21 @@
 <script>
     import csvData from './../store/csvdata';
     import scoreData from './../store/scoredata';
+    import checkboxLists from './../data/checkboxlists';
 
     export default {
         data() {
             return {
+                rankOptions: checkboxLists.rnkIDChecks,
+                clearOptions: checkboxLists.clrIDChecks,
+                levelOptions: checkboxLists.lvlIDChecks,
+                styleOptions: checkboxLists.styIDChecks,
+
                 state: scoreData.state,
                 totalRows: 1,
                 currentPage: 1,
                 perPage: 50,
-                pageOptions: [25, 35, 50],
+
                 sortBy: '',
                 sortDesc: false,
                 sortDirection: 'asc',
@@ -158,7 +169,9 @@
 
         computed: {
             items() {
-                return scoreData.state.cmbList;
+                //set total rows
+                this.totalRows = scoreData.state.cmbListCpy.length;
+                return scoreData.state.cmbListCpy;
             }
         },
 
@@ -175,39 +188,7 @@
                 // Trigger pagination to update the number of buttons/pages due to filtering
                 this.totalRows = filteredItems.length
                 this.currentPage = 1
-            },
-            getBpiColors: function(bpi) {
-                var colors = []; // fg = 0, bg = 1
-                var fg = "black";
-                var bg = "white";
-
-                if (bpi == -99.99) { bg = "d9d9d9"; fg = "Black"}
-
-                else if (bpi < -15.00) { bg = "#ffffff"; fg = "Black"; }
-                else if (bpi >= -15.00 && bpi < -10.00) { bg = "#999999"; fg = "Black"; }
-                else if (bpi >= -10.00 && bpi < -5.00) { bg = "#b7b7b7"; fg = "Black"; }
-                else if (bpi >= -5.00 && bpi < 0.00) { bg = "#d9d9d9"; fg = "Black"; }
-
-                else if (bpi >= 0.00 && bpi < 5.00) { bg = "#ea9999"; fg = "Black"; }
-                else if (bpi >= 5.00 && bpi < 10.00) { bg = "#f9b89c"; fg = "Black"; }
-                else if (bpi >= 10.00 && bpi < 15.00) { bg = "#f9cb9c"; fg = "Black"; }
-                else if (bpi >= 15.00 && bpi < 20.00) { bg = "#ffdd82"; fg = "Black"; }
-                else if (bpi >= 20.00 && bpi < 30.00) { bg = "#fffd82"; fg = "Black"; }
-                else if (bpi >= 30.00 && bpi < 40.00) { bg = "#e1db78"; fg = "Black"; }
-                else if (bpi >= 40.00 && bpi < 50.00) { bg = "#c5e178"; fg = "Black"; }
-                else if (bpi >= 50.00 && bpi < 60.00) { bg = "#6bff85"; fg = "Black"; }
-                else if (bpi >= 60.00 && bpi < 70.00) { bg = "#4fe1bf"; fg = "Black"; }
-                else if (bpi >= 70.00 && bpi < 80.00) { bg = "#adcaff"; fg = "Black"; }
-                else if (bpi >= 80.00 && bpi < 90.00) { bg = "#c764fa"; fg = "Black"; }
-                else if (bpi >= 90.00 && bpi < 100.00) { bg = "#d786e1"; fg = "Black"; }
-                else if (bpi >= 100.00) { bg = "#e11cbf"; fg = "Black"; }
-                else { bg = "#666666"; fg = "Black"; }
-
-                colors.push(fg);
-                colors.push(bg);
-
-                return colors;
-            }         
+            }
         }
     }
 </script>
