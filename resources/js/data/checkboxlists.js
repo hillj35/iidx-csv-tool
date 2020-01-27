@@ -170,7 +170,7 @@ export default {
         },
         {
             id: "style3",
-            label: "2rd style",
+            label: "3rd style",
             active: true
         },
         {

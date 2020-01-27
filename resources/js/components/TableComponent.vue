@@ -100,7 +100,7 @@
     <b-table
       show-empty
       small
-      
+      :sort-compare="sort"
       stacked="md"
       :items="items"
       :fields="fields"
@@ -131,6 +131,7 @@
     import csvData from './../store/csvdata';
     import scoreData from './../store/scoredata';
     import checkboxLists from './../data/checkboxlists';
+    import sorts from './../data/sorts';
 
     export default {
         data() {
@@ -159,7 +160,7 @@
                     { key: 'ex', label: 'Ex Score', sortable: true },
                     { key: 'misses', label: 'Miss Count', sortable: true },
                     { key: 'notes', label: 'Notes', sortable: true },
-                    { key: 'chart', label: 'Chart', sortable: true },
+                    { key: 'chart', label: 'Chart', sortable: false },
                     { key: 'percent', label: 'Percent', sortable: true },
                     { key: 'bpi', label: 'BPI', sortable: true },
                     
@@ -188,6 +189,19 @@
                 // Trigger pagination to update the number of buttons/pages due to filtering
                 this.totalRows = filteredItems.length
                 this.currentPage = 1
+            },
+            sort(aRow, bRow, key) {
+                if (!["clear", "style", "rank"].includes(key)) {
+                    //returning null falls back to default sort
+                    return null;
+                }
+                else {
+                    const a = aRow[key];
+                    const b = bRow[key];
+                    
+                    //returns -1 if a < b, 0 if equal, and 1 if a > b
+                    return sorts[key][a] < sorts[key][b] ? -1 : sorts[key][a] > sorts[key][b] ? 1 : 0;
+                }
             }
         }
     }
