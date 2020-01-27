@@ -1,4 +1,12 @@
 export default {
+    //active filters
+    filters: {
+        "rank": [],
+        "clear": [],
+        "level": [],
+        "style": []
+    },
+
     // ID lists
     rnkIDChecks: [
         {
@@ -46,42 +54,42 @@ export default {
     clrIDChecks: [
         {
             id: "clear_fc",
-            label: "FC",
+            label: "FULLCOMBO CLEAR",
             active: true  
         },
         {
             id: "clear_exhc",
-            label: "EXHC",
+            label: "EX HARD CLEAR",
             active: true  
         },
         {
             id: "clear_hc",
-            label: "HC",
+            label: "HARD CLEAR",
             active: true  
         },
         {
             id: "clear_nc",
-            label: "NC",
+            label: "CLEAR",
             active: true  
         },
         {
             id: "clear_ec",
-            label: "EC",
+            label: "EASY CLEAR",
             active: true  
         },
         {
             id: "clear_ac",
-            label: "AC",
+            label: "ASSIST CLEAR",
             active: true  
         },
         {
             id: "clear_fd",
-            label: "FD",
+            label: "FAILED",
             active: true  
         },
         {
             id: "clear_np",
-            label: "NP",
+            label: "NO PLAY",
             active: true  
         },
     ],
@@ -162,7 +170,7 @@ export default {
         },
         {
             id: "style3",
-            label: "2rd style",
+            label: "3rd style",
             active: true
         },
         {

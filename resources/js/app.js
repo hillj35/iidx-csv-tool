@@ -1,4 +1,5 @@
 import BootstrapVue from 'bootstrap-vue';
+import Multiselect from 'vue-multiselect';
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap-vue/dist/bootstrap-vue.css"
 require('./bootstrap');
@@ -23,6 +24,7 @@ window.Vue = require('vue');
  */
 
 Vue.use(BootstrapVue);
+Vue.component('multiselect', Multiselect);
 
 
 const app = new Vue({

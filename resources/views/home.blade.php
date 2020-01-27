@@ -8,16 +8,8 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-2">
-            <sidebar-component></sidebar-component>
-        </div>
-        <div class="col-lg-10">
-            <table-component></table-component>
-        </div>
-    </div>
-    <div class="row">
         <div class="col-lg-12">
-            <footer-component></footer-component>        
+            <table-component></table-component>
         </div>
     </div>
 </div>

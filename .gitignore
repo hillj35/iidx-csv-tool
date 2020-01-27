@@ -1,5 +1,9 @@
 /node_modules
+/public/css
 /public/hot
+/public/js
+/public/fonts
+/public/mix-manifest.json
 /public/storage
 /storage/*.key
 /vendor
@@ -10,4 +14,7 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+composer.phar
+composer-setup.php
+.vscode/settings.json
 resources/csv/score_data.csv
