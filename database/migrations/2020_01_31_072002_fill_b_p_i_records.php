@@ -15,7 +15,6 @@ class FillBPIRecords extends Migration
     public function up()
     {
         //open bpi data csv
-        echo getcwd() . "\n";
         $file = fopen("resources/csv/song_data.csv", "r");
         $data = fgetcsv($file, ",");
         $insert_array = array();
@@ -51,6 +50,6 @@ class FillBPIRecords extends Migration
     public function down()
     {
         //
-
+        BPIRecord::truncate();
     }
 }
