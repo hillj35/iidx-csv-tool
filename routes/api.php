@@ -16,3 +16,11 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+//Score source
+Route::group(['prefix' => 'scoresources'], function() {
+    Route::get('/get', 'ScoreSourceController@get')->middleware('auth');
+    Route::post('/delete', 'ScoreSourceController@delete')->middleware('auth');
+    Route::post('/create', 'ScoreSourceController@create')->middleware('auth');
+    Route::post('/update', 'ScoreSourceController@update')->middleware('auth');
+});
