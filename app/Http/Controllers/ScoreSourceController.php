@@ -2,83 +2,102 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\ScoreSource;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class ScoreSourceController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Score Source Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the creation of new score sources as well as
-    | the ability to fetch a user's scores sources
-    |
-    */
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        return ScoreSource::where('player_id', Auth::id())
+            ->get();
+    }
 
     /**
-     * creates a new ScoreSource instance
+     * Store a newly created resource in storage.
      *
-     * @param  Request  $request
-     *
-     * @return \App\ScoreSource
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
-    protected function create(Request $request) 
+    public function store(Request $request)
     {
+        //
         $request->validate([
             'name' => 'required|max:255'
         ]);
 
-        return ScoreSource::create([
-            'playerId' => Auth::id(),
-            'name' => $request['name']
+        $scoreSource = ScoreSource::create([
+            'player_id' => Auth::id(),
+            'name' => $request->input('name')
         ]);
+
+        return response()->json($scoreSource, 201);
     }
 
     /**
-     * delete
+     * Display the specified resource.
      *
-     * @param  mixed $request
-     *
-     * @return void
+     * @param  integer $id
+     * @return \Illuminate\Http\Response
      */
-    protected function delete(Request $request) 
+    public function show($id)
     {
+        //
+        $scoreSource = ScoreSource::findorfail($id);        
+        return response()->json($scoreSource);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  integer  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
         $request->validate([
-            'id' => 'required|numeric'
+            'name' => 'required|max:255'
         ]);
 
-        return ScoreSource::destroy($request['id']);
+        $scoreSource = ScoreSource::findorfail($id);
+        
+        //check if user is authorized to delete
+        if ($scoreSource->player_id != Auth::id()) 
+            return response()->json(null, 403);
+
+
+        $updatedFields = $request->only(['name']);
+
+        $scoreSource->update($updatedFields);
+        return response()->json($scoreSource);     
     }
 
     /**
-     * update
+     * Remove the specified resource from storage.
      *
-     * @param  mixed $request
-     *
-     * @return void
+     * @param  \Illuminate\Http\Request  $request
+     * @param  integer  $id
+     * @return \Illuminate\Http\Response
      */
-    protected function update(Request $request) 
+    public function destroy(Request $request, $id)
     {
-        $request->validate([
-            'id' => 'required|numeric',
-            'update' => 'required|array'
-        ]);
+        //
+        $scoreSource = ScoreSource::findorfail($id);
 
-        return ScoreSource::where('id', $request['id'])
-            ->update($request['update']);     
-    }
+        //check if user is authorized to delete
+        if ($scoreSource->player_id != Auth::id()) 
+            return response()->json(null, 403);
 
-    /**
-     * get
-     *
-     * @return void
-     */
-    protected function get() 
-    {
-        return ScoreSource::where('playerId', Auth::id())
-            ->get();
+        $scoreSource->delete();
+        return response()->json(null, 204);
     }
 }

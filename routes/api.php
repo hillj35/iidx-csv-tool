@@ -18,9 +18,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 //Score source
-Route::group(['prefix' => 'scoresources'], function() {
-    Route::get('/get', 'ScoreSourceController@get')->middleware('auth');
-    Route::post('/delete', 'ScoreSourceController@delete')->middleware('auth');
-    Route::post('/create', 'ScoreSourceController@create')->middleware('auth');
-    Route::post('/update', 'ScoreSourceController@update')->middleware('auth');
-});
+Route::resource('scoresources', 'ScoreSourceController')->middleware(['auth']);

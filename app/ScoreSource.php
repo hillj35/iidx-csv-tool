@@ -8,6 +8,6 @@ class ScoreSource extends Model
 {
     //
     protected $fillable = [
-        "playerId", "name"
+        "player_id", "name"
     ];
 }

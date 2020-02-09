@@ -8,6 +8,6 @@ use Faker\Generator as Faker;
 $factory->define(ScoreSource::class, function (Faker $faker) {
     return [
         'name' => $faker->sentence,
-        'playerid' => 1
+        'player_id' => 1
     ];
 });
