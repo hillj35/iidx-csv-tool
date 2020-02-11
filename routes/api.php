@@ -18,4 +18,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 //Score source
-Route::resource('scoresources', 'ScoreSourceController')->middleware(['auth']);
+Route::resource('scoresources', 'ScoreSourceController')->middleware(['auth:api'])->except(['create', 'edit']);
