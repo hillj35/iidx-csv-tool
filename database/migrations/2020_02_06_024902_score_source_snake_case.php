@@ -27,5 +27,8 @@ class ScoreSourceSnakeCase extends Migration
     public function down()
     {
         //
+        Schema::table('score_sources', function(Blueprint $table) {
+            $table->renameColumn('player_id', 'playerId');
+        });
     }
 }

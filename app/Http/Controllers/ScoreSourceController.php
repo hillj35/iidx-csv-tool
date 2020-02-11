@@ -85,7 +85,8 @@ class ScoreSourceController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $scoreSource = ScoreSource::findorfail($id);
+        //
+        $scoreSource = ScoreSource::findOrFail($id);
 
         //check if user is authorized to delete
         if ($scoreSource->player_id != Auth::id())

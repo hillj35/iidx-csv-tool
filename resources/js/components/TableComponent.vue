@@ -181,7 +181,7 @@
         },
 
         mounted() {
-
+            console.log(route('scoresources.store'));
         },
 
         methods: {
