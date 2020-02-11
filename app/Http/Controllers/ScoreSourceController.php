@@ -28,7 +28,6 @@ class ScoreSourceController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $request->validate([
             'name' => 'required|max:255'
         ]);
@@ -49,8 +48,8 @@ class ScoreSourceController extends Controller
      */
     public function show($id)
     {
-        //
-        $scoreSource = ScoreSource::findorfail($id);        
+        $scoreSource = ScoreSource::findorfail($id);
+
         return response()->json($scoreSource);
     }
 
@@ -69,16 +68,16 @@ class ScoreSourceController extends Controller
         ]);
 
         $scoreSource = ScoreSource::findorfail($id);
-        
+
         //check if user is authorized to delete
-        if ($scoreSource->player_id != Auth::id()) 
+        if ($scoreSource->player_id != Auth::id())
             return response()->json(null, 403);
 
 
         $updatedFields = $request->only(['name']);
 
         $scoreSource->update($updatedFields);
-        return response()->json($scoreSource);     
+        return response()->json($scoreSource);
     }
 
     /**
@@ -90,11 +89,10 @@ class ScoreSourceController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        //
         $scoreSource = ScoreSource::findorfail($id);
 
         //check if user is authorized to delete
-        if ($scoreSource->player_id != Auth::id()) 
+        if ($scoreSource->player_id != Auth::id())
             return response()->json(null, 403);
 
         $scoreSource->delete();
