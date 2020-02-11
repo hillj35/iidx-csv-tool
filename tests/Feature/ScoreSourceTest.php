@@ -34,7 +34,8 @@ class ScoreSourceTest extends TestCase
     {
         $data = [
             'name' => $this->faker->sentence,
-            'player_id' => $this->user->id
+            'player_id' => $this->user->id,
+            'private' => $this->faker->boolean()
         ];
 
         Passport::actingAs($this->user);
@@ -57,11 +58,13 @@ class ScoreSourceTest extends TestCase
         $data = [
             [
                 'player_id' => $this->user->id,
-                'name' => $scoreSource->name
+                'name' => $scoreSource->name,
+                'private' => $scoreSource->private
             ],
             [
                 'player_id' => $this->user->id,
-                'name' => $scoreSource1->name
+                'name' => $scoreSource1->name,
+                'private' => $scoreSource1->private
             ]
         ];
 
@@ -81,6 +84,7 @@ class ScoreSourceTest extends TestCase
         $data = [
             'player_id' => $this->user->id,
             'name' => $scoreSource->name,
+            'private' => $scoreSource->private
         ];
 
         Passport::actingAs($this->user);
@@ -99,6 +103,7 @@ class ScoreSourceTest extends TestCase
         $data = [
             'name' => $this->faker->sentence,
             'player_id' => $this->user->id,
+            'private' => $scoreSource->private
         ];
 
         Passport::actingAs($this->user);
