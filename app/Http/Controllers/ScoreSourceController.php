@@ -34,7 +34,8 @@ class ScoreSourceController extends Controller
 
         $scoreSource = ScoreSource::create([
             'player_id' => Auth::id(),
-            'name' => $request->input('name')
+            'name' => $request->input('name'),
+            'private' => $request->input('private')
         ]);
 
         return response()->json($scoreSource, 201);
