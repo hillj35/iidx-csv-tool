@@ -15,7 +15,7 @@ class AddScoreSourcesPrivateColumn extends Migration
     {
         //
         Schema::table('score_sources', function(Blueprint $table) {
-            $table->boolean('private');
+            $table->boolean('private')->default(true);
         });
     }
 
@@ -27,5 +27,8 @@ class AddScoreSourcesPrivateColumn extends Migration
     public function down()
     {
         //
+        Schema::table('score_sources', function (Blueprint $table) {
+            $table->dropColumn('private');
+        });
     }
 }

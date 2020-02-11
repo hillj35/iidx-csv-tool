@@ -35,7 +35,7 @@ class ScoreSourceTest extends TestCase
         $data = [
             'name' => $this->faker->sentence,
             'player_id' => $this->user->id,
-            'private' => $this->$faker->boolean()
+            'private' => $this->faker->boolean()
         ];
 
         Passport::actingAs($this->user);
