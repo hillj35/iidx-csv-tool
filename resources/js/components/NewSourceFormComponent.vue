@@ -1,19 +1,20 @@
 <template>
     <div>
         <b-form @reset="onReset" v-if="show">
-        <b-form-group
-            id="input-group-1"
-            label="Name:"
-            label-for="input-1"
-            description="Name for this score source."
-        >
+            <b-form-group
+                id="input-group-1"
+                label="Name:"
+                label-for="input-1"
+                description="Name for this score source."
+            >
             <b-form-input
-            id="input-1"
-            v-model="form.name"
-            type="source_name"
-            required
-            placeholder="Enter name"
-            ></b-form-input>
+                id="input-1"
+                v-model="form.name"
+                type="source_name"
+                required
+                placeholder="Enter name"
+            >
+            </b-form-input>
         </b-form-group>
 
         <b-form-group id="input-group-2">
