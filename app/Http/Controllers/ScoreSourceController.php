@@ -63,11 +63,6 @@ class ScoreSourceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-        $request->validate([
-            'name' => 'required|max:255'
-        ]);
-
         $scoreSource = ScoreSource::findorfail($id);
 
         //check if user is authorized to delete
@@ -75,7 +70,7 @@ class ScoreSourceController extends Controller
             return response()->json(null, 403);
 
 
-        $updatedFields = $request->only(['name']);
+        $updatedFields = $request->only(['name', 'private']);
 
         $scoreSource->update($updatedFields);
         return response()->json($scoreSource);

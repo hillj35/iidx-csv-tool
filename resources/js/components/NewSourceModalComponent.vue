@@ -7,7 +7,8 @@
             Add a new score source.
             </template>
             <div class="d-block text-center">
-                <new-source-form-component></new-source-form-component>
+                <new-source-form-component 
+                    :create="true"/>
             </div>
             <b-button class="mt-3" block @click="$bvModal.hide('bv-modal-example')">Close</b-button>
         </b-modal>
