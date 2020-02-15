@@ -10,7 +10,10 @@
                 </b-col>
                 <b-col cols="2">
                     <b-button variant="success" @click="uploadButton">upload</b-button>
-                    <new-source-modal-component></new-source-modal-component>
+                    <b-button id="show-btn" @click="$bvModal.show('bv-modal-example')">Add Source</b-button>
+                    <new-source-modal-component
+                        :create="true">
+                    </new-source-modal-component>
                 </b-col>
                 <b-col>
                     <b-form-file v-model="file" :state="Boolean(file)" placeholder="Score Data File" id="csvFileInput" ref="file" accept=".csv"/><br>
