@@ -19,7 +19,16 @@
 
         <b-form-group id="input-group-2">
             <b-col>
-            <b-form-file v-model="file" :state="Boolean(file)" required placeholder="Score Data File" id="csvFileInput" ref="file" accept=".csv"/><br>
+                <b-form-file
+                    v-model="form.file"
+                    :state="Boolean(form.file)"
+                    required
+                    placeholder="Score Data File"
+                    id="csvFileInput"
+                    ref="file"
+                    accept=".csv"
+                />
+                <br />
             </b-col>
         </b-form-group>
 

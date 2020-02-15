@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Score;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -31,6 +32,13 @@ class ScoreController extends Controller
         $request->validate([
             'data' => 'required|array'
         ]);
+
+        $data = array_map(function ($item) {
+            return array_merge($item,['created_at'=>Carbon::now(), 'updated_at'=>Carbon::now()]);
+        }, $request->input('data'));
+
+        Score::insert($data);
+        return response()->json(null, 201);
     }
 
     /**
