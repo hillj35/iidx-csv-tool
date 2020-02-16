@@ -20,7 +20,7 @@
         <b-form-group id="input-group-2">
             <b-col>
                 <b-form-file
-                    v-model="form.file"
+                    v-model="file"
                     :state="Boolean(form.file)"
                     required
                     placeholder="Score Data File"
@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import csvData from './../store/csvdata'
 export default {
     props: {
         create: {
@@ -90,8 +91,10 @@ export default {
 
     methods: {
         postForm() {
+            var file = this.file;
             this.request.then(function (response) {
                 console.log(response);
+                csvData.readScoreCSV(file, response['data']['id'], response['data']['update_id']);
             })
             .catch(function (response) {
                 console.log(response);

@@ -37,7 +37,7 @@ class ScoreController extends Controller
             return array_merge($item,['created_at'=>Carbon::now(), 'updated_at'=>Carbon::now()]);
         }, $request->input('data'));
 
-        Score::insert($data);
+        Score::insertOrIgnore($data);
         return response()->json(null, 201);
     }
 
