@@ -18,7 +18,7 @@ class CreateScoreSourcesTable extends Migration
             $table->bigInteger('player_id');
             $table->string('name');
             $table->string('private');
-            $table->string('update_id');
+            $table->string('update_id')->default(1);
             $table->timestamps();
         });
     }
