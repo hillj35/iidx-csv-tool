@@ -12,7 +12,8 @@
                     <b-button variant="success" @click="uploadButton">upload</b-button>
                     <b-button id="show-btn" @click="$bvModal.show('bv-modal-example')">Add Source</b-button>
                     <new-source-modal-component
-                        :create="false">
+                        :create="true"
+                    >
                     </new-source-modal-component>
                 </b-col>
                 <b-col>

@@ -15,8 +15,10 @@ class CreateScoreSourcesTable extends Migration
     {
         Schema::create('score_sources', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('playerid');
+            $table->bigInteger('player_id');
             $table->string('name');
+            $table->string('private');
+            $table->string('update_id');
             $table->timestamps();
         });
     }
