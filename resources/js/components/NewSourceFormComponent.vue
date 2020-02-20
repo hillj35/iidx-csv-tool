@@ -21,7 +21,7 @@
             <b-col>
                 <b-form-file
                     v-model="file"
-                    :state="Boolean(form.file)"
+                    :state="Boolean(file)"
                     required
                     placeholder="Score Data File"
                     id="csvFileInput"
