@@ -14,31 +14,23 @@ class CreateScoresTable extends Migration
     public function up()
     {
         Schema::create('scores', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->biginteger('sourceid');
+            $table->biginteger('source_id');
             $table->string('name');
-            $table->integer('playcount');
-            $table->integer('nex');
-            $table->integer('npg');
-            $table->integer('ng');
-            $table->integer('nmiss');
-            $table->string('nclear');
-            $table->string('ndjlvl');
-            $table->integer('hex');
-            $table->integer('hpg');
-            $table->integer('hg');
-            $table->integer('hmiss');
-            $table->string('hclear');
-            $table->string('hdjlvl');
-            $table->integer('aex');
-            $table->integer('apg');
-            $table->integer('ag');
-            $table->integer('amiss');
-            $table->string('aclear');
-            $table->string('adjlvl');
-            $table->timestamp('lastplayed');
+            $table->string('chart_version');
+            $table->integer('play_count');
+            $table->integer('ex_score');
+            $table->integer('perfect');
+            $table->integer('great');
+            $table->integer('miss');
+            $table->string('clear');
+            $table->integer('clear_rank');
+            $table->string('dj_level');
+            $table->integer('update_id');
             $table->timestamps();
-        });
+
+            $table->primary(['source_id', 'name', 'chart_version',
+                'ex_score', 'clear']);
+        });    
     }
 
     /**

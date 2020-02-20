@@ -38,7 +38,7 @@ class ScoreSourceController extends Controller
             'private' => $request->input('private')
         ]);
 
-        return response()->json($scoreSource, 201);
+        return response()->json(ScoreSource::find($scoreSource->id), 201);
     }
 
     /**
@@ -49,7 +49,7 @@ class ScoreSourceController extends Controller
      */
     public function show($id)
     {
-        $scoreSource = ScoreSource::findorfail($id);
+        $scoreSource = ScoreSource::findOrFail($id);
 
         return response()->json($scoreSource);
     }
@@ -63,7 +63,7 @@ class ScoreSourceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $scoreSource = ScoreSource::findorfail($id);
+        $scoreSource = ScoreSource::findOrFail($id);
 
         //check if user is authorized to delete
         if ($scoreSource->player_id != Auth::id())
@@ -73,6 +73,7 @@ class ScoreSourceController extends Controller
         $updatedFields = $request->only(['name', 'private']);
 
         $scoreSource->update($updatedFields);
+        $scoreSource->increment('update_id');
         return response()->json($scoreSource);
     }
 
@@ -85,7 +86,8 @@ class ScoreSourceController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $scoreSource = ScoreSource::findorfail($id);
+        //
+        $scoreSource = ScoreSource::findOrFail($id);
 
         //check if user is authorized to delete
         if ($scoreSource->player_id != Auth::id())

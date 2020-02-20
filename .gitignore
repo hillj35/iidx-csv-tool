@@ -18,3 +18,5 @@ composer.phar
 composer-setup.php
 .vscode/settings.json
 resources/csv/score_data.csv
+resources/csv/score_data_new.csv
+resources/csv/score_data_beek.csv
