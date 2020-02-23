@@ -24,7 +24,7 @@
             </b-container>
         </b-col>
     </b-row> 
-    @elseif(Users::show(Request()->id))
+    @else
     <b-row>
         <b-col class="col-lg-2">
             <b-container fluid>
@@ -39,23 +39,7 @@
         </b-col>
         <b-col class="col-lg-22">
         </b-col>
-    </b-row>    
-    @else
-    <b-row>
-        <b-col class="col-lg-2">
-            <b-container fluid>
-                <b-card header="DJ Name" class="text-center">
-                    <b-card img-src="QPRO" img-alt="QPro"> </b-card>
-                    <b-card-text>SP rank: </b-card-text>
-                    <b-card-text>DP rank: </b-card-text>
-                    <b-card-text>Avg BPI: </b-card-text>
-                    <b-card-text id="none-account" style="color:red">This player does not exist!</b-card-text>
-                </b-card>
-            </b-container>
-        </b-col>
-        <b-col class="col-lg-22">
-        </b-col>
-    </b-row>   
+    </b-row>      
     @endif
 </b-container>
 @endsection
