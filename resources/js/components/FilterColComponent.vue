@@ -4,12 +4,12 @@
 <template>
     <b-container fluid>
         <b-row>
-            <b-col lg="8">
+            <b-col lg="11">
                 <multiselect v-model="selected" :options="options" :multiple="true" 
                 :close-on-select="false" :clear-on-select="false" :preserve-search="true"
                 :placeholder="placeholder" label="label" track-by="id"/>
             </b-col>
-            <b-col lg="4">
+            <b-col lg="1">
                 <b-button @click="toggleSelections">{{ buttonText }}</b-button>
             </b-col>
         </b-row>
