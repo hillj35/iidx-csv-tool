@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\User;
 
 class UserPageController extends Controller
 {
@@ -34,11 +35,9 @@ class UserPageController extends Controller
      * @param  integer $id
      * @return \Illuminate\Http\Response
      */
-    public function show(User $id)
+    public function showProfile($id)
     {
-        $user = User::findOrFail($id);
-
-        return response()->json($user);
+        return view('user', ['user' => User::findOrFail($id)]);
     }
 
 }
