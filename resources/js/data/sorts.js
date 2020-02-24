@@ -1,5 +1,5 @@
 export default {
-    "rank": {
+    "dj_level": {
         "F": 0,
         "E": 1,
         "D": 2,

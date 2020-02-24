@@ -98,7 +98,7 @@ export default {
             })
             .catch(function (response) {
                 console.log(response);
-            })
+            });
         },
         onReset() {
             // Reset our form values

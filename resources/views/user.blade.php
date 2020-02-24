@@ -19,7 +19,7 @@
             <b-container fluid>
                 <b-card>        
                     <header-component></header-component>
-                    <table-component></table-component>
+                    <table-component user="{{ Auth::user()->id }}"></table-component>
                 </b-card>
             </b-container>
         </b-col>

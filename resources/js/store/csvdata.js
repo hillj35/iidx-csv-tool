@@ -24,6 +24,7 @@ export default {
                     var row = rows[i].replace(/,---,/g, ',,');
                     let cols = row.split(',');
                     if (cols[0] !== "") {
+            
                         if (cols[6] !== '0' && cols[10] !== 'NO PLAY')
                             songDataList.push({
                                 'source_id': sourceId,
@@ -39,7 +40,7 @@ export default {
                                 'chart_version': 'n',
                                 'update_id': updateId
                             });
-
+            
                         if (cols[13] !== '0' && cols[17] !== 'NO PLAY')
                             songDataList.push({
                                 'source_id': sourceId,
@@ -55,8 +56,11 @@ export default {
                                 'chart_version': 'h',
                                 'update_id': updateId
                             });
-
-                        if (cols[20] !== '0' && cols[24] !== 'NO PLAY')
+            
+                        if (cols[20] !== '0' && cols[24] !== 'NO PLAY') {
+                            //leggendaria check - rootage and earlier
+                            var version = cols[5] === '0' ? 'l': 'a';
+                            
                             songDataList.push({
                                 'source_id': sourceId,
                                 'name': cols[1],
@@ -68,10 +72,12 @@ export default {
                                 'clear': cols[24],
                                 'clear_rank': sorts["clear"][cols[24]],
                                 'dj_level': cols[25],
-                                'chart_version': 'a',
+                                'chart_version': version,
                                 'update_id': updateId
                             });
+                        }
                     }
+            
                 }
 
                 //hit score.store api
