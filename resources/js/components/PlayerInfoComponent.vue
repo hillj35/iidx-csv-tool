@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-card :header="user" class="text-center">
+        <b-card :header="'DJ ' + user.name" class="text-center">
             <b-card img-src="QPRO" img-alt="QPro"> </b-card>
             <b-card-text>SP rank: </b-card-text>
             <b-card-text>DP rank: </b-card-text>
@@ -13,7 +13,7 @@
 export default {
     props: {
         user: {
-            type: String
+            type: Object
         }
     }
 }

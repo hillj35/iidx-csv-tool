@@ -137,7 +137,7 @@
     export default {
         props: {
             user: {
-                type: Number
+                type: Object
             }
         },
 
@@ -183,7 +183,7 @@
         },
 
         mounted() {
-            axios.get(`/api/scores/userscores/${this.user}`)
+            axios.get(`/api/scores/userscores/${this.user.id}`)
             .then(this.onDataGet)
             .catch(function (response) {
                 console.log(response);
