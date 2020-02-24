@@ -132,8 +132,15 @@
     import scoreData from './../store/scoredata';
     import checkboxLists from './../data/checkboxlists';
     import sorts from './../data/sorts';
+    import bpiVariants from './../data/bpivariants';
 
     export default {
+        props: {
+            user: {
+                type: Object
+            }
+        },
+
         data() {
             return {
                 rankOptions: checkboxLists.rnkIDChecks,
@@ -156,14 +163,13 @@
                     { key: 'level', label: 'Level', sortable: true },
                     { key: 'style', label: 'Style', sortable: true },
                     { key: 'clear', label: 'Clear', sortable: true },
-                    { key: 'rank', label: 'Rank', sortable: true },
-                    { key: 'ex', label: 'Ex Score', sortable: true },
-                    { key: 'misses', label: 'Miss Count', sortable: true },
+                    { key: 'dj_level', label: 'Rank', sortable: true },
+                    { key: 'ex_score', label: 'Ex Score', sortable: true },
+                    { key: 'miss', label: 'Miss Count', sortable: true },
                     { key: 'notes', label: 'Notes', sortable: true },
-                    { key: 'chart', label: 'Chart', sortable: false },
+                    { key: 'chart_version', label: 'Chart', sortable: false },
                     { key: 'percent', label: 'Percent', sortable: true },
                     { key: 'bpi', label: 'BPI', sortable: true },
-                    
                 ]
             };
         },
@@ -176,12 +182,12 @@
             }
         },
 
-        watch: {
-
-        },
-
         mounted() {
-
+            axios.get(`/api/scores/userscores/${this.user.id}`)
+            .then(this.onDataGet)
+            .catch(function (response) {
+                console.log(response);
+            });
         },
 
         methods: {
@@ -191,9 +197,17 @@
                 this.currentPage = 1
             },
             sort(aRow, bRow, key) {
-                if (!["clear", "style", "rank"].includes(key)) {
+                if (!["clear", "style", "dj_level", "percent", "bpi"].includes(key)) {
                     //returning null falls back to default sort
                     return null;
+                }
+                else if(["percent", "bpi"].includes(key)) {
+                    //convert to number for the comparison
+                    //+ converts to number
+                    const a = +aRow[key];
+                    const b = +bRow[key];
+
+                    return a < b ? -1 : a > b ? 1 : 0;
                 }
                 else {
                     const a = aRow[key];
@@ -202,6 +216,31 @@
                     //returns -1 if a < b, 0 if equal, and 1 if a > b
                     return sorts[key][a] < sorts[key][b] ? -1 : sorts[key][a] > sorts[key][b] ? 1 : 0;
                 }
+            },
+            onDataGet(response) {
+                var data = response.data;
+
+                for (var key in data) {
+                    var song = data[key];
+                    song['bpi'] = scoreData.bpiCalc(
+                        song['notes'] * 2,
+                        song['kavg'],
+                        song['record'],
+                        song['ex_score']
+                    ).toFixed(2);
+                    song['_rowVariant'] = bpiVariants.getVariant(song['bpi']);
+                    
+                    song['clear'] = Object.keys(sorts["clear"]).find(
+                        key => sorts["clear"][key] === song['clear_rank']
+                    );
+
+
+                    song['percent'] = (song['ex_score'] / (song['notes'] * 2) * 100).toFixed(2);
+                }
+                scoreData.state.cmbList = data;
+                scoreData.state.cmbListCpy = data;
+                this.totalRows = data.length;
+                console.log(response);
             }
         }
     }
