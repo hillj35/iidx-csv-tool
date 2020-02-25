@@ -261,7 +261,7 @@ export default {
         var styleFilters = filters["style"].map(x => x.label);
 
         this.state.cmbListCpy = this.state.cmbList.filter(function (e) {
-            return rankFilters.includes(e.dj_level) && clearFilters.includes(e.clear_rank) 
+            return rankFilters.includes(e.dj_level) && clearFilters.includes(e.clear) 
                 && levelFilters.includes(e.level.toString()) && styleFilters.includes(e.style)
         })
     }
