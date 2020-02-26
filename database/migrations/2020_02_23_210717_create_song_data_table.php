@@ -24,6 +24,7 @@ class CreateSongDataTable extends Migration
             $table->integer('notes');
             $table->integer('record');
             $table->integer('kavg');
+            $table->string('legg_name');
             $table->string('data_style');
             $table->timestamps();
         });

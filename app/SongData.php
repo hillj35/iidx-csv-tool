@@ -8,7 +8,7 @@ class SongData extends Model
 {
     //
     protected $fillable = [
-        'style', 'title', 'artist', 'genre', 'level'
-        ,'chart_version', 'notes', 'record', 'kavg', 'data_style'
+        'style', 'title', 'artist', 'genre', 'level', 'chart_version'
+        , 'notes', 'record', 'kavg', 'data_style', 'legg_name'
     ];
 }

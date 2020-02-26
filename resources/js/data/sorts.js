@@ -1,5 +1,6 @@
 export default {
     "dj_level": {
+        "": -1,
         "F": 0,
         "E": 1,
         "D": 2,

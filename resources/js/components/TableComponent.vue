@@ -54,77 +54,83 @@
 
 <template>
 <b-container fluid>
-    <!-- User Interface controls -->
-    <filter-col-component :options="rankOptions" placeholder="Rank Filter" filter="rank"></filter-col-component>
-    <filter-col-component :options="clearOptions" placeholder="Clear Filter" filter="clear"></filter-col-component>
-    <filter-col-component :options="levelOptions" placeholder="Level Filter" filter="level"></filter-col-component>
-    <filter-col-component :options="styleOptions" placeholder="Style Filter" filter="style"></filter-col-component>
+    <div class="d-flex justify-content-center mb-3" v-if="loading">
+        <b-spinner style="width: 3rem; height: 3rem;"></b-spinner>
+        <label>Loading Data...</label>
+    </div>
+    <div v-if="!loading">
+        <!-- User Interface controls -->
+        <filter-col-component :options="rankOptions" placeholder="Rank Filter" filter="rank"></filter-col-component>
+        <filter-col-component :options="clearOptions" placeholder="Clear Filter" filter="clear"></filter-col-component>
+        <filter-col-component :options="levelOptions" placeholder="Level Filter" filter="level"></filter-col-component>
+        <filter-col-component :options="styleOptions" placeholder="Style Filter" filter="style"></filter-col-component>
 
-    <b-row>
-        <b-col lg="6" class="my-1">
-            <b-form-group
-            label="Filter"
-            label-cols-sm="3"
-            label-align-sm="right"
-            label-size="sm"
-            label-for="filterInput"
-            class="mb-0"
-            >
-            <b-input-group size="sm">
-                <b-form-input
-                v-model="filter"
-                type="search"
-                id="filterInput"
-                placeholder="Type to Search"
-                ></b-form-input>
-                <b-input-group-append>
-                <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
-                </b-input-group-append>
-            </b-input-group>
-            </b-form-group>
+        <b-row>
+            <b-col lg="6" class="my-1">
+                <b-form-group
+                label="Filter"
+                label-cols-sm="3"
+                label-align-sm="right"
+                label-size="sm"
+                label-for="filterInput"
+                class="mb-0"
+                >
+                <b-input-group size="sm">
+                    <b-form-input
+                    v-model="filter"
+                    type="search"
+                    id="filterInput"
+                    placeholder="Type to Search"
+                    ></b-form-input>
+                    <b-input-group-append>
+                    <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
+                    </b-input-group-append>
+                </b-input-group>
+                </b-form-group>
+            </b-col>
+
+        <b-col sm="7" md="6" class="my-1">
+            <b-pagination
+            v-model="currentPage"
+            :total-rows="totalRows"
+            :per-page="perPage"
+            align="fill"
+            size="sm"
+            class="my-0"
+            ></b-pagination>
         </b-col>
+        </b-row>
 
-      <b-col sm="7" md="6" class="my-1">
-        <b-pagination
-          v-model="currentPage"
-          :total-rows="totalRows"
-          :per-page="perPage"
-          align="fill"
-          size="sm"
-          class="my-0"
-        ></b-pagination>
-      </b-col>
-    </b-row>
+        <!-- Main table element -->
+        <b-table
+        show-empty
+        small
+        :sort-compare="sort"
+        stacked="md"
+        :items="items"
+        :fields="fields"
+        :current-page="currentPage"
+        :per-page="perPage"
+        :filter="filter"
+        :filterIncludedFields="filterOn"
+        :sort-by.sync="sortBy"
+        :sort-desc.sync="sortDesc"
+        :sort-direction="sortDirection"
+        @filtered="onFiltered"
+        >
+        <template v-slot:cell(name)="row">
+            {{ row.value.first }} {{ row.value.last }}
+        </template>
 
-    <!-- Main table element -->
-    <b-table
-      show-empty
-      small
-      :sort-compare="sort"
-      stacked="md"
-      :items="items"
-      :fields="fields"
-      :current-page="currentPage"
-      :per-page="perPage"
-      :filter="filter"
-      :filterIncludedFields="filterOn"
-      :sort-by.sync="sortBy"
-      :sort-desc.sync="sortDesc"
-      :sort-direction="sortDirection"
-      @filtered="onFiltered"
-    >
-      <template v-slot:cell(name)="row">
-        {{ row.value.first }} {{ row.value.last }}
-      </template>
-
-      <template v-slot:row-details="row">
-        <b-card>
-          <ul>
-            <li v-for="(value, key) in row.item" :key="key">{{ key }}: {{ value }}</li>
-          </ul>
-        </b-card>
-      </template>
-    </b-table>
+        <template v-slot:row-details="row">
+            <b-card>
+            <ul>
+                <li v-for="(value, key) in row.item" :key="key">{{ key }}: {{ value }}</li>
+            </ul>
+            </b-card>
+        </template>
+        </b-table>
+    </div>
   </b-container></template>
 
 <script>
@@ -143,6 +149,8 @@
 
         data() {
             return {
+                loading: false,
+
                 rankOptions: checkboxLists.rnkIDChecks,
                 clearOptions: checkboxLists.clrIDChecks,
                 levelOptions: checkboxLists.lvlIDChecks,
@@ -183,10 +191,15 @@
         },
 
         mounted() {
+            var self = this;
+            self.loading = true;
             axios.get(`/api/scores/userscores/${this.user.id}`)
             .then(this.onDataGet)
             .catch(function (response) {
                 console.log(response);
+            })
+            .finally(function() {
+                self.loading = false;
             });
         },
 
@@ -232,6 +245,9 @@
                     
                     song['clear'] = Object.keys(sorts["clear"]).find(
                         key => sorts["clear"][key] === song['clear_rank']
+                    );
+                    song['dj_level'] = Object.keys(sorts["dj_level"]).find(
+                        key => sorts["dj_level"][key] === song['dj_level_rank']
                     );
 
 

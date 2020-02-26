@@ -21,10 +21,11 @@ class CreateScoresTable extends Migration
             $table->integer('ex_score');
             $table->integer('perfect');
             $table->integer('great');
-            $table->integer('miss');
+            $table->integer('miss')->nullable();
             $table->string('clear');
             $table->integer('clear_rank');
             $table->string('dj_level');
+            $table->integer('dj_level_rank');
             $table->integer('update_id');
             $table->timestamps();
 
