@@ -16,44 +16,63 @@ class ScoreController extends Controller
 
     public function userScores($id) 
     {
-                //top plays subquery
-                $topPlays = DB::table('scores')
-                ->select(
-                    'scores.name'
-                    ,'chart_version'
-                    ,DB::raw('max(ex_score) as ex_score')
-                    ,DB::raw('max(clear_rank) as clear_rank')
-                )->join('score_sources', 'scores.source_id', '=', 'score_sources.id')
-                ->where('player_id', '=', $id)
-                ->groupby('scores.name', 'chart_version');
+        $scores = DB::select("select song_data.title
+                ,song_data.chart_version
+                ,top_plays.ex_score
+                ,top_plays.miss
+                ,top_plays.clear_rank
+                ,top_plays.dj_level_rank
+                ,play_counts.play_count
+                ,song_data.level
+                ,song_data.style
+                ,song_data.genre
+                ,song_data.notes
+                ,song_data.record
+                ,song_data.kavg
+            from song_data left outer join 
+            (
+                select song_data.title
+                    ,scores.chart_version
+                    ,max(ex_score) as ex_score
+                    ,max(clear_rank) as clear_rank
+                    ,max(dj_level_rank) as dj_level_rank
+                    ,min(miss) as miss
+                from scores join score_sources
+                    on scores.source_id = score_sources.id
+                join song_data 
+                    on (scores.name = song_data.title or scores.name = song_data.legg_name)
+                    and scores.chart_version = song_data.chart_version
+                where player_id = ?
+                group by song_data.title
+                    ,chart_version
+            ) as top_plays 
+                on song_data.title = top_plays.title
+                and song_data.chart_version = top_plays.chart_version
+            left join 
+            (
+                select counts.title
+                    ,sum(counts.play_count) as play_count
+                from 
+                (
+                    select song_data.title
+                        ,scores.name
+                        ,source_id
+                        ,max(play_count) as play_count
+                    from scores join score_sources 
+                        on scores.source_id = score_sources.id
+                    join song_data 
+                        on (scores.name = song_data.title or scores.name = song_data.legg_name)
+                    where player_id = ?
+                    group by song_data.title
+                        ,scores.name
+                        ,source_id
+                ) as counts
+                group by counts.title
+            ) as play_counts
+                on song_data.title = play_counts.title
+        ", [$id, $id]);
         
-                $scores = Score::select(
-                    DB::raw('scores.name as title') 
-                    ,'scores.chart_version'
-                    ,'play_count'
-                    ,'top_plays.ex_score'
-                    ,'perfect'
-                    ,'great'
-                    ,'miss'
-                    ,'top_plays.clear_rank'
-                    ,'dj_level'
-                    ,'song_data.level'
-                    ,'song_data.style'
-                    ,'song_data.genre'
-                    ,'song_data.notes'
-                    ,'song_data.record'
-                    ,'song_data.kavg'
-                )->joinSub($topPlays, 'top_plays', function ($join) {
-                    $join->on('scores.name', '=', 'top_plays.name');
-                    $join->on('scores.chart_version', '=', 'top_plays.chart_version');
-                    $join->on('scores.ex_score', '=', 'top_plays.ex_score');
-                })
-                ->leftJoin('song_data', function($join) {
-                    $join->on('song_data.title', '=', 'scores.name');
-                    $join->on('song_data.chart_version', '=', 'scores.chart_version');
-                })->get();
-
-                return response()->json($scores, 200);
+        return response()->json($scores, 200);
         
     }
 
