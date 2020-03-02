@@ -17,59 +17,57 @@ class ScoreController extends Controller
     public function userScores($id) 
     {
         $scores = DB::select("select song_data.title
-                ,song_data.chart_version
-                ,top_plays.ex_score
-                ,top_plays.miss
-                ,top_plays.clear_rank
-                ,top_plays.dj_level_rank
-                ,play_counts.play_count
-                ,song_data.level
-                ,song_data.style
-                ,song_data.genre
-                ,song_data.notes
-                ,song_data.record
-                ,song_data.kavg
-            from song_data left outer join 
+            ,legg_name
+            ,style
+            ,top_plays.chart_version
+            ,ex_score
+            ,clear_rank
+            ,dj_level_rank
+            ,miss
+            ,play_counts.play_count
+            ,genre
+            ,level
+            ,notes
+            ,record
+            ,kavg
+        from 
+        (
+            select scores.name
+                ,scores.chart_version
+                ,max(ex_score) as ex_score
+                ,max(clear_rank) as clear_rank
+                ,max(dj_level_rank) as dj_level_rank
+                ,min(miss) as miss
+            from scores join score_sources
+                on scores.source_id = score_sources.id
+            where player_id = ?
+            group by scores.name
+                ,chart_version
+        ) as top_plays
+        join song_data
+        on (top_plays.name = song_data.title or top_plays.name = song_data.legg_name)
+        and top_plays.chart_version = song_data.chart_version
+        left outer join 
+        (
+            select title, sum(play_count) as play_count from
             (
-                select song_data.title
-                    ,scores.chart_version
-                    ,max(ex_score) as ex_score
-                    ,max(clear_rank) as clear_rank
-                    ,max(dj_level_rank) as dj_level_rank
-                    ,min(miss) as miss
+                select source_id
+                    ,scores.name
+                    ,max(play_count) as play_count
                 from scores join score_sources
                     on scores.source_id = score_sources.id
-                join song_data 
-                    on (scores.name = song_data.title or scores.name = song_data.legg_name)
-                    and scores.chart_version = song_data.chart_version
                 where player_id = ?
-                group by song_data.title
-                    ,chart_version
-            ) as top_plays 
-                on song_data.title = top_plays.title
-                and song_data.chart_version = top_plays.chart_version
-            left join 
+                group by source_id, name
+            ) as source_play_count
+            join 
             (
-                select counts.title
-                    ,sum(counts.play_count) as play_count
-                from 
-                (
-                    select song_data.title
-                        ,scores.name
-                        ,source_id
-                        ,max(play_count) as play_count
-                    from scores join score_sources 
-                        on scores.source_id = score_sources.id
-                    join song_data 
-                        on (scores.name = song_data.title or scores.name = song_data.legg_name)
-                    where player_id = ?
-                    group by song_data.title
-                        ,scores.name
-                        ,source_id
-                ) as counts
-                group by counts.title
-            ) as play_counts
-                on song_data.title = play_counts.title
+                select distinct title, legg_name
+                from song_data
+            ) s_data
+            on source_play_count.name = s_data.title or source_play_count.name = s_data.legg_name
+            group by title
+        ) play_counts 
+        on (song_data.title = play_counts.title or song_data.legg_name = play_counts.title)
         ", [$id, $id]);
         
         return response()->json($scores, 200);

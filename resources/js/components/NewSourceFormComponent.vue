@@ -76,7 +76,7 @@ export default {
                 return axios.post('/api/scoresources', this.form);
             }
             else {
-                return axios.put(`api/scoresources/${this.source_id}`, this.form);
+                return axios.put(`/api/scoresources/${this.source_id}`, this.form);
             }
         },
         button_text() {
