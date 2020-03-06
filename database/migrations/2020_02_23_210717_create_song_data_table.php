@@ -14,19 +14,22 @@ class CreateSongDataTable extends Migration
     public function up()
     {
         Schema::create('song_data', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('style');
+            $table->string('style', 40);
             $table->string('title');
             $table->string('artist');
             $table->string('genre');
-            $table->integer('level');
-            $table->string('chart_version');
-            $table->integer('notes');
-            $table->integer('record');
-            $table->integer('kavg');
+            $table->tinyInteger('level');
+            $table->char('chart_version');
+            $table->smallInteger('notes');
+            $table->smallInteger('record');
+            $table->smallInteger('kavg');
             $table->string('legg_name');
-            $table->string('data_style');
+            $table->string('data_style', 40);
             $table->timestamps();
+
+            $table->primary(['title', 'chart_version',
+            'data_style']);
+            $table->index('legg_name');
         });
     }
 

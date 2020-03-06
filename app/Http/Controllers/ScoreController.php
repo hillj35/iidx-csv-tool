@@ -71,7 +71,6 @@ class ScoreController extends Controller
         ", [$id, $id]);
         
         return response()->json($scores, 200);
-        
     }
 
 

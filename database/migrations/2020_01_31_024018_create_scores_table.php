@@ -16,16 +16,16 @@ class CreateScoresTable extends Migration
         Schema::create('scores', function (Blueprint $table) {
             $table->biginteger('source_id');
             $table->string('name');
-            $table->string('chart_version');
-            $table->integer('play_count');
-            $table->integer('ex_score');
-            $table->integer('perfect');
-            $table->integer('great');
-            $table->integer('miss')->nullable();
-            $table->string('clear');
-            $table->integer('clear_rank');
-            $table->string('dj_level');
-            $table->integer('dj_level_rank');
+            $table->char('chart_version');
+            $table->smallInteger('play_count');
+            $table->smallInteger('ex_score');
+            $table->smallInteger('perfect');
+            $table->smallInteger('great');
+            $table->smallInteger('miss')->nullable();
+            $table->string('clear', 16);
+            $table->tinyInteger('clear_rank');
+            $table->string('dj_level', 3);
+            $table->tinyInteger('dj_level_rank');
             $table->integer('update_id');
             $table->timestamps();
 
