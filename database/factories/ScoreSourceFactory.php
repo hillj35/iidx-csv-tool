@@ -1,14 +1,30 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\ScoreSource;
-use Faker\Generator as Faker;
+use App\Models\ScoreSource;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(ScoreSource::class, function (Faker $faker) {
-    return [
-        'name' => $faker->sentence,
-        'player_id' => 1,
-        'private' => $faker->boolean()
-    ];
-});
+class ScoreSourceFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = ScoreSource::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'name' => $this->faker->sentence(),
+            'player_id' => 1,
+            'private' => $this->faker->boolean()
+        ];
+    }
+}

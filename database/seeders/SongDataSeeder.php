@@ -1,26 +1,26 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
-use App\SongData;
+namespace Database\Seeders;
 
-class FillSongDataTable extends Migration
+use App\Models\SongData;
+use Illuminate\Database\Seeder;
+
+class SongDataSeeder extends Seeder
 {
     /**
-     * Run the migrations.
+     * Run the database seeds.
      *
      * @return void
      */
-    public function up()
+    public function run()
     {
+        SongData::truncate();
+
         //open bpi data csv
         $file = fopen("resources/csv/song_data_combined.csv", "r");
-        $data = fgetcsv($file, ",");
-        $insert_array = array();
+        $data = fgetcsv($file, null, ",");
 
-        while (($data = fgetcsv($file, ",")) !== FALSE) 
-        {
+        while (($data = fgetcsv($file, null, ",")) !== FALSE) {
             //normal
             SongData::create(array(
                 'style' => $data[0],
@@ -84,19 +84,6 @@ class FillSongDataTable extends Migration
                     'data_style' => 'ROOTAGE'
                 ));
             }
-            
         }
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        //
-        SongData::truncate();
-    }
-
 }

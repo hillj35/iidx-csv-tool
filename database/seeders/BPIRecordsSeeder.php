@@ -1,27 +1,27 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
-use App\BPIRecord;
+namespace Database\Seeders;
 
-class FillBPIRecords extends Migration
+use App\Models\BPIRecord;
+use Illuminate\Database\Seeder;
+
+class BPIRecordsSeeder extends Seeder
 {
     /**
-     * Run the migrations.
+     * Run the database seeds.
      *
      * @return void
      */
-    public function up()
+    public function run()
     {
+        BPIRecord::truncate();
+
         //open bpi data csv
         $file = fopen("resources/csv/song_data.csv", "r");
-        $data = fgetcsv($file, ",");
-        $insert_array = array();
+        $data = fgetcsv($file, null, ",");
 
-        while (($data = fgetcsv($file, ",")) !== FALSE) 
-        {
-            $record = BPIRecord::create(array(
+        while (($data = fgetcsv($file, null, ",")) !== FALSE) {
+            BPIRecord::create(array(
                 'style' => $data[0],
                 'title' => $data[1],
                 'artist' => $data[2],
@@ -40,16 +40,5 @@ class FillBPIRecords extends Migration
                 'akavg' => $data[15]
             ));
         }
-    }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        //
-        BPIRecord::truncate();
     }
 }

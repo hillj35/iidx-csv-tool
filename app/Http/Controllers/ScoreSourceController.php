@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\ScoreSource;
+use App\Models\ScoreSource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
