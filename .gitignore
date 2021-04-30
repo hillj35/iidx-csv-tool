@@ -1,3 +1,4 @@
+/.vscode
 /node_modules
 /public/css
 /public/hot
@@ -16,7 +17,6 @@ npm-debug.log
 yarn-error.log
 composer.phar
 composer-setup.php
-.vscode/settings.json
 resources/csv/score_data.csv
 resources/csv/score_data_new.csv
 resources/csv/score_data_beek.csv

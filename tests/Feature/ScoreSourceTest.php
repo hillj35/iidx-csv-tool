@@ -2,13 +2,12 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\ScoreSource;
+use App\Models\User;
+use Laravel\Passport\Passport;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use \Illuminate\Foundation\Testing\DatabaseMigrations;
-use App\User;
-use App\ScoreSource;
-use Laravel\Passport\Passport;
 
 class ScoreSourceTest extends TestCase
 {
@@ -20,7 +19,7 @@ class ScoreSourceTest extends TestCase
     protected function setUp() : void
     {
         parent::setup();
-        $this->user = factory(User::class)->create();
+        $this->user = User::factory()->create();
         $this->withoutExceptionHandling();
     }
 
@@ -48,10 +47,10 @@ class ScoreSourceTest extends TestCase
 
     public function testListAll()
     {
-        $scoreSource = factory(ScoreSource::class)->create([
+        $scoreSource = ScoreSource::factory()->create([
             'player_id' => $this->user->id
         ]);
-        $scoreSource1 = factory(ScoreSource::class)->create([
+        $scoreSource1 = ScoreSource::factory()->create([
             'player_id' => $this->user->id
         ]);
 
@@ -77,7 +76,7 @@ class ScoreSourceTest extends TestCase
 
     public function testGet()
     {
-        $scoreSource = factory(ScoreSource::class)->create([
+        $scoreSource = ScoreSource::factory()->create([
             'player_id' => $this->user->id
         ]);
 
@@ -96,7 +95,7 @@ class ScoreSourceTest extends TestCase
 
     public function testUpdate()
     {
-        $scoreSource = factory(ScoreSource::class)->create([
+        $scoreSource = ScoreSource::factory()->create([
             'player_id' => $this->user->id
         ]);
 
@@ -122,7 +121,7 @@ class ScoreSourceTest extends TestCase
 
     public function testDelete()
     {
-        $scoreSource = factory(ScoreSource::class)->create([
+        $scoreSource = ScoreSource::factory()->create([
             'player_id' => $this->user->id
         ]);
 
@@ -135,7 +134,7 @@ class ScoreSourceTest extends TestCase
 
     public function testUnauthorizedDelete()
     {
-        $scoreSource = factory(ScoreSource::class)->create([
+        $scoreSource = ScoreSource::factory()->create([
             'player_id' => 123456789
         ]);
 
@@ -152,7 +151,7 @@ class ScoreSourceTest extends TestCase
             'name' => $this->faker->sentence
         ];
 
-        $scoreSource = factory(ScoreSource::class)->create([
+        $scoreSource = ScoreSource::factory()->create([
             'player_id' => 123456789
         ]);
 

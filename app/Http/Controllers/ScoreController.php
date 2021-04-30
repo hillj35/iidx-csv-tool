@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Score;
+use App\Models\Score;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class ScoreController extends Controller
 {
@@ -14,7 +13,7 @@ class ScoreController extends Controller
      * Return a listing of a User's scores
      */
 
-    public function userScores($id) 
+    public function userScores($id)
     {
         $scores = DB::select("select song_data.title
                 ,song_data.chart_version
@@ -29,7 +28,7 @@ class ScoreController extends Controller
                 ,song_data.notes
                 ,song_data.record
                 ,song_data.kavg
-            from song_data left outer join 
+            from song_data left outer join
             (
                 select song_data.title
                     ,scores.chart_version
@@ -39,28 +38,28 @@ class ScoreController extends Controller
                     ,min(miss) as miss
                 from scores join score_sources
                     on scores.source_id = score_sources.id
-                join song_data 
+                join song_data
                     on (scores.name = song_data.title or scores.name = song_data.legg_name)
                     and scores.chart_version = song_data.chart_version
                 where player_id = ?
                 group by song_data.title
                     ,chart_version
-            ) as top_plays 
+            ) as top_plays
                 on song_data.title = top_plays.title
                 and song_data.chart_version = top_plays.chart_version
-            left join 
+            left join
             (
                 select counts.title
                     ,sum(counts.play_count) as play_count
-                from 
+                from
                 (
                     select song_data.title
                         ,scores.name
                         ,source_id
                         ,max(play_count) as play_count
-                    from scores join score_sources 
+                    from scores join score_sources
                         on scores.source_id = score_sources.id
-                    join song_data 
+                    join song_data
                         on (scores.name = song_data.title or scores.name = song_data.legg_name)
                     where player_id = ?
                     group by song_data.title
@@ -71,9 +70,9 @@ class ScoreController extends Controller
             ) as play_counts
                 on song_data.title = play_counts.title
         ", [$id, $id]);
-        
+
         return response()->json($scores, 200);
-        
+
     }
 
 
